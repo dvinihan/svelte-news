@@ -1,12 +1,20 @@
 <script lang="ts">
-  const { content, description, publishedAt, source, title, url, urlToImage } =
-    $$props.story;
+  import type { Article } from "./types/Article";
+
+  const { description, publishedAt, source, title, url, urlToImage } =
+    $$props.story as Article;
 
   const imageWidth = 130;
   const imageHeight = (imageWidth / 16) * 9;
+
+  const formattedDate = new Date(publishedAt).toLocaleString();
+
+  const handleClick = () => {
+    window.open(url, "_blank");
+  };
 </script>
 
-<div class="container">
+<button class="container" on:click={handleClick}>
   <div class="header">
     <img
       style="--image-width: {imageWidth}px; --image-height: {imageHeight}px"
@@ -14,23 +22,27 @@
       src={urlToImage}
       alt={description}
     />
-
     <h3 class="title">
       {title}
     </h3>
   </div>
 
-  <div>
-    <p>
-      {description}
-    </p>
-  </div>
-</div>
+  <p class="metadata">{source.name} --- {formattedDate}</p>
+
+  <p>
+    {description}
+  </p>
+</button>
 
 <style>
   .container {
     display: flex;
     flex-direction: column;
+    text-align: start;
+    background-color: #ededed;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 15px;
   }
   .header {
     display: flex;
@@ -41,6 +53,9 @@
     margin-right: 10px;
   }
   .title {
-    margin-top: 0;
+    margin: 0;
+  }
+  .metadata {
+    margin: 5px 0;
   }
 </style>

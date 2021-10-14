@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { getPastDateString } from "./helpers";
+
   import ListItem from "./ListItem.svelte";
   import type { Article } from "./types/Article";
 
@@ -6,8 +8,11 @@
 
   let stories: Article[] = [];
 
+  const searchTerms = ["apple", "google"].join(" OR ");
+  const searchFromDate = getPastDateString(2);
+
   fetch(
-    `https://newsapi.org/v2/everything?q=Apple&from=2021-10-12&sortBy=popularity&apiKey=${API_KEY}`
+    `https://newsapi.org/v2/everything?q=${searchTerms}&from=${searchFromDate}&sortBy=popularity&apiKey=${API_KEY}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -15,14 +20,19 @@
     });
 </script>
 
-<h1>Google News</h1>
-<div class="list-item">
-  {#each stories as story}
-    <ListItem {story} />
-  {/each}
+<div class="container">
+  <h1>Google News</h1>
+  <div class="list-item">
+    {#each stories as story}
+      <ListItem {story} />
+    {/each}
+  </div>
 </div>
 
 <style>
+  .container {
+    margin: 10px;
+  }
   .list-item {
     display: flex;
     flex-direction: column;
