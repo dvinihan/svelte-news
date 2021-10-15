@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Article } from '../types/Article';
 
-	const { description, publishedAt, source, title, url, urlToImage } = $$props.story as Article;
+	const { description, publishedAt, source, title, url, urlToImage } = $$props.article as Article;
 
 	const imageWidth = 130;
 	const imageHeight = (imageWidth / 16) * 9;
